@@ -3,29 +3,28 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LoginResource;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+         $credentials = $request->validated();
 
-        if (! Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Credenciais inválidas.',
             ], 422);
         }
 
-        $request->session()->regenerate();
+        $user = auth()->user();
 
-        return response()->json([
-            'user' => Auth::user(),
-        ]);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return new LoginResource($user, $token);
     }
 
     public function logout(Request $request)
