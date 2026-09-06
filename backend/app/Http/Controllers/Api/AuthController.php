@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginResource;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\LogoutResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,17 +31,16 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $user = $request->user();
 
-        return response()->noContent();
+        $user->currentAccessToken()->delete();
+
+        return new LogoutResource($user);
     }
 
     public function me(Request $request)
     {
-        return response()->json([
-            'user' => $request->user()->only(['id', 'name', 'email']),
-        ]);
+        $user = auth()->user();
+        return new UserResource($user);
     }
 }
