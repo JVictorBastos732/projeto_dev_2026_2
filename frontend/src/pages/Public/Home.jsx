@@ -11,10 +11,12 @@ export default function Home() {
   useEffect(() => {
     api
       .get('/api/categories')
-      .then((res) => setCategories(res.data))
+      .then((res) => setCategories(res.data.data))
       .catch(() => setError('Não foi possível carregar as categorias no momento.'))
       .finally(() => setLoading(false));
   }, []);
+
+  console.log(categories);
 
   return (
     <div className="min-h-screen">
@@ -61,7 +63,7 @@ export default function Home() {
                 {cat.deadline && (
                   <span>Prazo: {new Date(cat.deadline).toLocaleDateString('pt-BR')}</span>
                 )}
-                {cat.vagas && <span>{cat.vacancies} vagas</span>}
+                {cat.vacancies && <span>{cat.vacancies} vagas</span>}
               </div>
             </div>
           ))}
