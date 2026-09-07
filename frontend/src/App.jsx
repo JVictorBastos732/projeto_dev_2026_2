@@ -6,6 +6,7 @@ import ConsulProtocol from './pages/Public/ConsultProtocol';
 import AdminLogin from './pages/Admin/Login';
 import AdminSubmissions from './pages/Admin/Submissions';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminCategories from './pages/Admin/Categories';
 
 export default function App() {
   return (
@@ -22,6 +23,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <AdminSubmissions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/categories"
+          element={
+            <ProtectedRoute>
+              <AdminCategories />
             </ProtectedRoute>
           }
         />
