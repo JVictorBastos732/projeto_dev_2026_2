@@ -4,6 +4,8 @@ import Home from './pages/Public/Home';
 import FormSubmission from './pages/Public/FormSubmission';
 import ConsulProtocol from './pages/Public/ConsultProtocol';
 import AdminLogin from './pages/Admin/Login';
+import AdminSubmissions from './pages/Admin/Submissions';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   return (
