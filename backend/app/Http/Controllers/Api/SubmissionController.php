@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSubmissionRequest;
 use App\Models\Category;
 use App\Models\Submission;
@@ -10,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 
 class SubmissionController extends Controller
 {
-     public function store(StoreSubmissionRequest $request)
+    public function store(StoreSubmissionRequest $request)
     {
         $category = Category::findOrFail($request->category_id);
 

@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\SubmissionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/categories', [CategoryController::class, 'indexPublic']);

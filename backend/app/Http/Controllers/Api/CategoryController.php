@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function indexPublic()
+     public function indexPublic()
     {
         $categories = CategoryResource::collection(Category::orderBy('title', 'asc')->where('active', true)->get());
 
