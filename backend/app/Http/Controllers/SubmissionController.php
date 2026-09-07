@@ -23,7 +23,7 @@ class SubmissionController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('file')) {
-            $data['file_path'] = $request->file('file')->store('submissions', 'public');
+            $data['file_path'] = $request->file('pdf_file')->store('submissions', 'public');
         }
 
         $submission = Submission::create($data);
@@ -50,7 +50,7 @@ class SubmissionController extends Controller
             'title' => $submission->title,
             'category' => $submission->category->title,
             'status' => $submission->status,
-            'criado_em' => $submission->created_at,
+            'created_at' => $submission->created_at,
         ]);
     }
 
