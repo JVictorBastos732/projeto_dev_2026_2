@@ -29,6 +29,7 @@ class StoreSubmissionRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'resume' => ['nullable', 'string', 'max:2000'],
             'desired_date' => ['required', 'date', 'after_or_equal:today'],
+            'file' => ['required', 'file', 'mimes:pdf', 'max:10240'], // 10MB
         ];
     }
 
@@ -42,6 +43,9 @@ class StoreSubmissionRequest extends FormRequest
             'category_id.exists' => 'Categoria inválida.',
             'title.required' => 'Informe o título do trabalho.',
             'desired_date.after_or_equal' => 'A data precisa ser hoje ou uma data futura.',
+            'file.required' => 'Anexe o PDF do trabalho.',
+            'file.mimes' => 'O arquivo precisa estar em formato PDF.',
+            'file.max' => 'O arquivo não pode passar de 10MB.',
         ];
     }
 }

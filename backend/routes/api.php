@@ -17,4 +17,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/admin/submissions', [SubmissionController::class, 'index']);
     Route::patch('/admin/submissions/{submission}/status', [SubmissionController::class, 'updateStatus']);
+    Route::get('/admin/submissions/{submission}/file', [SubmissionController::class, 'downloadFile']);
 });

@@ -113,6 +113,14 @@ export default function AdminSubmissions() {
                   <td className="px-4 py-3">
                     {s.status === 'pending' ? (
                       <div className="flex gap-2">
+                        <a
+                        href={`http://localhost:8000/api/admin/submissions/${s.id}/file`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xs text-blue-800 hover:underline"
+                      >
+                        Baixar PDF
+                      </a>
                         <button
                           disabled={actingId === s.id}
                           onClick={() => updateStatus(s.id, 'approved')}

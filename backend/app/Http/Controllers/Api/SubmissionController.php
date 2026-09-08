@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSubmissionRequest;
 use App\Models\Category;
 use App\Models\Submission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class SubmissionController extends Controller
@@ -99,4 +100,16 @@ class SubmissionController extends Controller
 
         return response()->json($submission->fresh('category'));
     }
+
+    public function downloadFile(Submission $submission)
+{
+    if (! $submission->file_path || ! Storage::disk('public')->exists($submission->file_path)) {
+        return response()->json(['message' => 'Arquivo não encontrado.'], 404);
+    }
+
+    return Storage::disk('public')->download(
+        $submission->file_path,
+        "submissao-{$submission->protocol}.pdf"
+    );
+}
 }
