@@ -8,7 +8,6 @@ const INITIAL_FIELDS = {
   category_id: '',
   title: '',
   resume: '',
-  desired_date: '',
 };
 
 export default function FormSubmission() {
@@ -29,7 +28,7 @@ export default function FormSubmission() {
     if (!/^\S+@\S+\.\S+$/.test(data.author_email)) newErrors.author_email = 'Email inválido.';
     if (!data.category_id) newErrors.category_id = 'Escolha uma categoria.';
     if (!data.title.trim()) newErrors.title = 'Informe o título.';
-    if (!data.desired_date) newErrors.desired_date = 'Escolha uma data.';
+    if (!file) newErrors.file = 'Anexe o PDF do trabalho.';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -159,20 +158,14 @@ export default function FormSubmission() {
             />
           </Field>
 
-          <Field label="Data desejada" error={errors.desired_date}>
-            <input
-              type="date"
-              className="input w-full rounded-lg border border-gray-200 bg-gray-100 px-4 py-2.5 text-gray-700 placeholder-gray-400 outline-none focus:border-gray-300 focus:ring-0"
-              value={data.desired_date}
-              onChange={(e) => setData({ ...data, desired_date: e.target.value })}
-            />
-          </Field>
-
-          <Field label="Arquivo PDF">
+          <Field label="Arquivo PDF *" error={errors.file}>
             <input
               type="file"
               accept="application/pdf"
-              onChange={(e) => setFile(e.target.files[0])}
+              onChange={(e) => {
+                setFile(e.target.files[0]);
+                setErrors((prev) => ({ ...prev, file: undefined }));
+              }}
               className="text-sm"
             />
           </Field>

@@ -90,7 +90,6 @@ export default function AdminSubmissions() {
                 <th className="px-4 py-3">Autor</th>
                 <th className="px-4 py-3">Trabalho</th>
                 <th className="px-4 py-3">Categoria</th>
-                <th className="px-4 py-3">Data</th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Ações</th>
               </tr>
@@ -105,9 +104,6 @@ export default function AdminSubmissions() {
                   <td className="px-4 py-3">{s.title}</td>
                   <td className="px-4 py-3">{s.category?.title}</td>
                   <td className="px-4 py-3">
-                    {new Date(s.desired_date).toLocaleDateString('pt-BR')}
-                  </td>
-                  <td className="px-4 py-3">
                     <StatusBadge status={s.status} />
                   </td>
                   <td className="px-4 py-3">
@@ -116,7 +112,7 @@ export default function AdminSubmissions() {
                         <a
                         href={`http://localhost:8000/api/admin/submissions/${s.id}/file`}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener"
                         className="text-xs text-blue-800 hover:underline"
                       >
                         Baixar PDF
