@@ -135,8 +135,8 @@ export default function FormSubmission() {
             >
               <option value="">Selecione...</option>
               {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.title}
+                <option key={c.id} value={c.id} disabled={!c.is_open}>
+                  {c.title}{!c.is_open ? (c.is_expired ? ' — prazo encerrado' : ' — sem vagas') : ''}
                 </option>
               ))}
             </select>

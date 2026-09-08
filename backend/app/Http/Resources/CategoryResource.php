@@ -21,8 +21,12 @@ class CategoryResource extends JsonResource
             'deadline' => $this->deadline,
             'vacancies' => $this->vacancies,
             'active' => $this->active,
+            'vacancies_left' => $this->vacancies_left,
+            'is_full' => $this->is_full,
+            'is_expired' => $this->is_expired,
+            'is_open' => $this->is_open,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
         ];
     }
 }

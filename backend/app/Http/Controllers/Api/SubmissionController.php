@@ -16,15 +16,27 @@ class SubmissionController extends Controller
         $category = Category::findOrFail($request->category_id);
 
         if (! $category->active) {
-            throw ValidationException::withMessages([
-                'category_id' => 'Essa categoria não está mais aceitando submissões.',
-            ]);
-        }
+        throw ValidationException::withMessages([
+            'category_id' => 'Essa categoria não está mais aceitando submissões.',
+        ]);
+            }
+
+            if ($category->is_expired) {
+                throw ValidationException::withMessages([
+                    'category_id' => 'O prazo de submissão dessa categoria já encerrou.',
+                ]);
+            }
+
+            if ($category->is_full) {
+                throw ValidationException::withMessages([
+                    'category_id' => 'Essa categoria não tem mais vagas disponíveis.',
+                ]);
+            }
 
         $data = $request->validated();
 
         if ($request->hasFile('file')) {
-            $data['file_path'] = $request->file('pdf_file')->store('submissions', 'public');
+            $data['file_path'] = $request->file('file')->store('submissions', 'public');
         }
 
         $submission = Submission::create($data);

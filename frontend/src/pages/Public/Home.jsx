@@ -59,12 +59,20 @@ export default function Home() {
               {cat.description && (
                 <p className="mt-1 text-sm text-slate-600">{cat.description}</p>
               )}
-              <div className="mt-3 flex justify-between text-xs text-slate-500">
-                {cat.deadline && (
-                  <span>Prazo: {new Date(cat.deadline).toLocaleDateString('pt-BR')}</span>
+              <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
+                <span>
+                  {cat.deadline && `Prazo: ${new Date(cat.deadline).toLocaleDateString('pt-BR')}`}
+                </span>
+                {cat.is_expired && (
+                  <span className="rounded-full bg-slate-200 px-2 py-0.5 text-slate-600">Prazo encerrado</span>
                 )}
-                {cat.vacancies && <span>{cat.vacancies} vagas</span>}
-              </div>
+                {!cat.is_expired && cat.is_full && (
+                  <span className="rounded-full bg-red-100 px-2 py-0.5 text-red-700">Sem vagas</span>
+                )}
+                {!cat.is_expired && !cat.is_full && cat.vacancies_left !== null && (
+                  <span>{cat.vacancies_left} vagas restantes</span>
+                )}
+              </div>  
             </div>
           ))}
         </div>

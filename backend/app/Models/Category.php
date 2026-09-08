@@ -22,4 +22,32 @@ class Category extends Model
     {
         return $this->hasMany(Submission::class);
     }
+
+    public function getVacanciesLeftAttribute(): ?int
+{
+    if ($this->vacancies === null) {
+        return null; // sem limite de vagas definido
+    }
+
+    $occupied = $this->submissions()
+        ->whereIn('status', ['pending', 'confirmed'])
+        ->count();
+
+    return max(0, $this->vacancies - $occupied);
+}
+
+public function getIsFullAttribute(): bool
+{
+    return $this->vacancies_left !== null && $this->vacancies_left <= 0;
+}
+
+public function getIsExpiredAttribute(): bool
+{
+    return $this->deadline !== null && now()->startOfDay()->gt($this->deadline);
+}
+
+public function getIsOpenAttribute(): bool
+{
+    return $this->active && ! $this->is_full && ! $this->is_expired;
+}
 }
