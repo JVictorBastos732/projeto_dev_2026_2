@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -15,14 +14,12 @@ class AuthPanelTest extends TestCase
     public function test_painel_bloqueia_acesso_sem_autenticacao(): void
     {
         $response = $this->getJson('/api/admin/submissions');
-
         $response->assertStatus(401);
     }
 
     public function test_gestao_de_categorias_tambem_e_bloqueada_sem_autenticacao(): void
     {
         $response = $this->postJson('/api/admin/categories', ['title' => 'Teste']);
-
         $response->assertStatus(401);
     }
 
@@ -43,12 +40,8 @@ class AuthPanelTest extends TestCase
 
     public function test_admin_autenticado_acessa_o_painel(): void
     {
-        $admin = User::factory()->create();
-
-        Sanctum::actingAs($admin, ['*']);
-
+        Sanctum::actingAs(User::factory()->create(), ['*']);
         $response = $this->getJson('/api/admin/submissions');
-
         $response->assertStatus(200);
     }
 }

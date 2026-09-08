@@ -72,7 +72,7 @@ class SubmissionController extends Controller
     public function index(Request $request)
     {
         $query = Submission::with('category:id,title')
-            ->orderByDesc('desire_date');
+            ->orderByDesc('created_at');
 
         if ($request->filled('status')) {
             $query->where('status', $request->string('status'));

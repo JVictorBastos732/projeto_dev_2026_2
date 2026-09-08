@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreSubmissionRequest extends FormRequest
 {
@@ -24,12 +25,18 @@ class StoreSubmissionRequest extends FormRequest
     {
         return [
             'author_name' => ['required', 'string', 'max:255'],
-            'author_email' => ['required', 'email', 'max:255'],
-            'category_id' => ['required', 'exists:categories,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'resume' => ['nullable', 'string', 'max:2000'],
-            'desired_date' => ['required', 'date', 'after_or_equal:today'],
-            'file' => ['required', 'file', 'mimes:pdf', 'max:10240'], // 10MB
+        'author_email' => [
+            'required', 'email', 'max:255',
+            Rule::unique('submissions')->where(function ($query) {
+                return $query->where('author_name', $this->author_name)
+                    ->where('title', $this->title)
+                    ->where('category_id', $this->category_id);
+            }),
+        ],
+        'category_id' => ['required', 'exists:categories,id'],
+        'title' => ['required', 'string', 'max:255'],
+        'resume' => ['nullable', 'string', 'max:2000'],
+        'file' => ['required', 'file', 'mimes:pdf', 'max:10240'], //10MB
         ];
     }
 
@@ -42,10 +49,10 @@ class StoreSubmissionRequest extends FormRequest
             'category_id.required' => 'Escolha uma categoria.',
             'category_id.exists' => 'Categoria inválida.',
             'title.required' => 'Informe o título do trabalho.',
-            'desired_date.after_or_equal' => 'A data precisa ser hoje ou uma data futura.',
             'file.required' => 'Anexe o PDF do trabalho.',
             'file.mimes' => 'O arquivo precisa estar em formato PDF.',
             'file.max' => 'O arquivo não pode passar de 10MB.',
+            'author_email.unique' => 'Você já enviou uma submissão com esse nome, email e título para essa categoria.',
         ];
     }
 }

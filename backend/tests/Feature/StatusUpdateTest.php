@@ -23,7 +23,7 @@ class StatusUpdateTest extends TestCase
             'author_email' => 'autor@example.com',
             'category_id' => $category->id,
             'title' => 'Trabalho de teste',
-            'desired_date' => now()->addWeek(),
+            'file_path' => 'fake/path.pdf',
         ]);
     }
 
@@ -36,13 +36,8 @@ class StatusUpdateTest extends TestCase
             'status' => 'approved',
         ]);
 
-        $response->assertStatus(200)
-            ->assertJsonFragment(['status' => 'approved']);
-
-        $this->assertDatabaseHas('submissions', [
-            'id' => $submission->id,
-            'status' => 'approved',
-        ]);
+        $response->assertStatus(200)->assertJsonFragment(['status' => 'approved']);
+        $this->assertDatabaseHas('submissions', ['id' => $submission->id, 'status' => 'approved']);
     }
 
     public function test_admin_pode_cancelar_uma_submissao(): void
@@ -54,8 +49,7 @@ class StatusUpdateTest extends TestCase
             'status' => 'canceled',
         ]);
 
-        $response->assertStatus(200)
-            ->assertJsonFragment(['status' => 'canceled']);
+        $response->assertStatus(200)->assertJsonFragment(['status' => 'canceled']);
     }
 
     public function test_status_invalido_e_rejeitado(): void
@@ -64,14 +58,10 @@ class StatusUpdateTest extends TestCase
         $submission = $this->criarSubmissaoPendente();
 
         $response = $this->patchJson("/api/admin/submissions/{$submission->id}/status", [
-            'status' => 'aprovado', // não existe no enum
+            'status' => 'aprovado',
         ]);
 
         $response->assertStatus(422);
-
-        $this->assertDatabaseHas('submissions', [
-            'id' => $submission->id,
-            'status' => 'pending', // não mudou
-        ]);
+        $this->assertDatabaseHas('submissions', ['id' => $submission->id, 'status' => 'pending']);
     }
 }

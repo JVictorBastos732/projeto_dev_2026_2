@@ -10,11 +10,11 @@ class Submission extends Model
 {
     protected $fillable = [
         'author_name', 'author_email', 'category_id', 'title',
-        'resume', 'file_path', 'protocol', 'desired_date', 'status',
+        'resume', 'file_path', 'protocol', 'status',
     ];
 
     protected $casts = [
-        'desired_date' => 'date',
+        
     ];
 
     protected static function boot()
