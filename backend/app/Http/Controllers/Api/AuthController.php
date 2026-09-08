@@ -14,19 +14,19 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
-         $credentials = $request->validated();
+        $credentials = $request->validated();
 
-        if (!Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Credenciais inválidas.',
             ], 422);
         }
 
-        $user = auth()->user();
+        $request->session()->regenerate();
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return new LoginResource($user, $token);
+        return response()->json([
+            'user' => Auth::user()->only(['id', 'name', 'email']),
+        ]);
     }
 
     public function logout(Request $request)

@@ -9,12 +9,7 @@ Route::get('/categories', [CategoryController::class, 'indexPublic']);
 Route::post('/submissions', [SubmissionController::class, 'store']);
 Route::get('/submissions/consult/{protocol}', [SubmissionController::class, 'consult']);
 
-Route::post('/auth/login', [AuthController::class, 'login']);
-
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/auth/me', [AuthController::class, 'me']);
-    Route::post('/auth/logout', [AuthController::class, 'logout']);
-
     Route::get('/admin/categories', [CategoryController::class, 'index']);
     Route::post('/admin/categories', [CategoryController::class, 'store']);
     Route::put('/admin/categories/{category}', [CategoryController::class, 'update']);

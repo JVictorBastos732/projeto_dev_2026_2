@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     api
       .get('/api/auth/me')
-      .then((res) => setUser(res.data.data))
+      .then((res) => setUser(res.data.user))
       .catch(() => setUser(null))
       .finally(() => setLoading(false));
   }, []);
@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
   async function login(email, password) {
     await api.get('/sanctum/csrf-cookie');
     const res = await api.post('/api/auth/login', { email, password });
-    setUser(res.data.data.user);
+    setUser(res.data.user);
   }
 
   async function logout() {
